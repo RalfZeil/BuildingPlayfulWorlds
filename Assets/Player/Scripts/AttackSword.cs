@@ -1,42 +1,45 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.UIElements;
 
 public class AttackSword : MonoBehaviour, IAttack
 {
-    private enum State
-    {
-        Normal,
-        Attacking
-    }
+    Vector3 attackDir;
+    [SerializeField] Vector2 boxSize = new Vector2(2f, 4f);
 
-    private State state;
+    private Animator animator;
+    private GameObject attackPoint;
 
-    private void Update()
+    private void Awake()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            Attack();
-        }
-    }
-
-    private void SetStateAttacking()
-    {
-        state = State.Attacking;
-        GetComponent<IMoveVelocity>().Disable();
-    }
-
-    private void SetStateNormal()
-    {
-        state = State.Normal;
-        GetComponent<IMoveVelocity>().Enable();
+        animator = GetComponentInChildren<Animator>();
+        attackPoint = this.transform.Find("AttackPoint").GameObject();
     }
 
     public void Attack()
     {
-        SetStateAttacking();
-        Vector3 worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        //Get the attack direction
+        Vector3 worldPosition = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
+        attackDir = (worldPosition - transform.position).normalized;
 
-        Vector3 attackDir = (worldPosition - transform.position).normalized;
+       
+
+        Collider2D[] hitEnemies = Physics2D.OverlapBoxAll(transform.position + attackDir * 3f, boxSize, Vector3.Angle(attackDir, transform.position));
+        attackPoint.transform.SetPositionAndRotation(transform.position + attackDir * 3f, Quaternion.Euler(0, 0, attackDir.z));
+
+
+
+        foreach (Collider2D enemy in hitEnemies)
+        {
+            if(enemy.GetComponent<IDamageAble>() != null)
+            {
+                enemy.GetComponent<IDamageAble>().Damage();
+            }
+        }
+
+        animator.SetTrigger("Attack");
     }
 }
