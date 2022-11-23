@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
 
-public class AttackSword : MonoBehaviour, IAttack
+public class AttackSword : Weapon
 {
     Vector3 attackDir;
     [SerializeField] Vector2 boxSize = new Vector2(2f, 4f);
@@ -19,7 +19,7 @@ public class AttackSword : MonoBehaviour, IAttack
         attackPoint = this.transform.Find("AttackPoint").GameObject();
     }
 
-    public void Attack()
+    public override void Attack()
     {
         //Get the attack direction
         Vector3 worldPosition = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
