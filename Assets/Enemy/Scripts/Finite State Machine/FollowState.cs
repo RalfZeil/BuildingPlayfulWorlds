@@ -2,13 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.Rendering;
 using UnityEngine;
-using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public class FollowState : State<Monster>
 {
     GameObject player;
-
-    float speed = 1f;
+    readonly float speed = 1f;
 
     public FollowState(Monster owner) : base(owner)
     {

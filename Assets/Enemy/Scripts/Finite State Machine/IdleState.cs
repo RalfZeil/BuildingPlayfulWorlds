@@ -11,7 +11,6 @@ public class IdleState : State<Monster>
 
     public override void OnEnter()
     {
-        Debug.Log("On Enter Idle");
     }
 
     public override void OnExit()

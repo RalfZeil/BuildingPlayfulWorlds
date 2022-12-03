@@ -663,6 +663,7 @@ GameObject:
   - component: {fileID: 1068678560}
   - component: {fileID: 1068678561}
   - component: {fileID: 1068678562}
+  - component: {fileID: 1068678563}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -815,6 +816,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   boxSize: {x: 2, y: 4}
+--- !u!114 &1068678563
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1068678553}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38aa2afac330a864a80904203d590357, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  abilities: []
+  speed: 4
 --- !u!1 &1211200105
 GameObject:
   m_ObjectHideFlags: 0
