@@ -5,27 +5,41 @@ using UnityEngine.Rendering;
 
 public class Player : MonoBehaviour
 {
+    public IMoveVelocity moveVelocity;
+
     public List<Ability> abilities = new List<Ability>();
 
-    public float speed = 4f;
+    public int health = 5;
+    public float baseSpeed = 4f;
+    public float speed;
+    public float damage = 1f;
 
+    private void Start()
+    {
+        moveVelocity = GetComponent<IMoveVelocity>();
+    }
 
     // Update is called once per frame
     void Update()
     {
+        float modifiers = 0;
+
         foreach(Ability ability in abilities)
         {
-            ability.OnUpdate(this);
+            if(ability.boostType)
+            modifiers = modifiers + ability.GetModifier(this);
         }
+
+        speed = baseSpeed + modifiers;
     }
 
-    public void ChangeSpeed(float newSpeed)
+    private void FixedUpdate()
     {
-        speed = newSpeed;
+        moveVelocity.OnFixedUpdate(this);
     }
 
-    public void GainAbility()
+    public void GainAbility(Ability ability)
     {
-
+        abilities.Add(ability);
     }
 }

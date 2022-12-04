@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class MoveVelocity : MonoBehaviour, IMoveVelocity
 {
-    [SerializeField] private float moveSpeed;
-
     private Vector3 velocityVector;
     private Rigidbody2D rb;
 
@@ -29,8 +27,8 @@ public class MoveVelocity : MonoBehaviour, IMoveVelocity
         this.velocityVector =  velocityVector;
     }
 
-    private void FixedUpdate()
+    public void OnFixedUpdate(Player player)
     {
-        rb.velocity = velocityVector * moveSpeed;
+        rb.velocity = velocityVector * player.speed;
     }
 }
