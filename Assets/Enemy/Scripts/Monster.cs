@@ -8,8 +8,6 @@ public class Monster : MonoBehaviour, IDamageAble
     [SerializeField] private SpriteRenderer spriteRenderer;
     private FiniteStateMachine fsm;
 
-    public bool foundPlayer;
-
     void Start()
     {
         SetupStateMachine();
@@ -29,6 +27,12 @@ public class Monster : MonoBehaviour, IDamageAble
 
     void FixedUpdate()
     {
+        fsm?.OnFixedUpdate();
+    }
+
+    public bool IsInRange()
+    {
+        bool foundPlayer = false;
 
         Collider2D[] scan = Physics2D.OverlapCircleAll(this.transform.position, 5f);
 
@@ -41,17 +45,22 @@ public class Monster : MonoBehaviour, IDamageAble
             }
         }
 
-        fsm?.OnFixedUpdate();
-    }
-
-    public bool IsInRange()
-    {
         return foundPlayer;
     }
 
     public void Damage()
     {
         spriteRenderer.color = new Color(1, 0, 0);
-        Debug.Log("Damaged");
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        Player player = collision.GetComponent<Player>();
+
+        if (player != null)
+        {
+            player?.Damage();
+            Debug.Log("Damaged Player");
+        }
     }
 }

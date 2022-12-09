@@ -21,6 +21,8 @@ public class Player : MonoBehaviour
     private void Start()
     {
         moveVelocity = GetComponent<IMoveVelocity>();
+
+        health = baseHealth;
     }
 
     // Update is called once per frame
@@ -47,7 +49,6 @@ public class Player : MonoBehaviour
         }
 
         speed = baseSpeed + speedModifiers;
-        health = baseHealth + healthModifiers;
         damage = baseDamage + damageModifiers;
     }
 
@@ -59,5 +60,11 @@ public class Player : MonoBehaviour
     public void GainAbility(Ability ability)
     {
         abilities.Add(ability);
+    }
+
+    public void Damage()
+    {
+        health = health - 1;
+        EventManager<float>.RaiseEvent(EventType.ON_TAKE_DAMAGE, health);
     }
 }
