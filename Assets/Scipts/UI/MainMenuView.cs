@@ -16,6 +16,4 @@ public class MainMenuView : View
         settingsButton.onClick.AddListener(() => ViewManager.Show<SettingsMenuView>());
         quitButton.onClick.AddListener(() => Application.Quit());
     }
-
-    
 }

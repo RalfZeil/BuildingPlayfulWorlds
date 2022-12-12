@@ -28,6 +28,18 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
+    }
+
+    private void FixedUpdate()
+    {
+        moveVelocity.OnFixedUpdate(this);
+    }
+
+    public void GainAbility(Ability _ability)
+    {
+        abilities.Add(_ability);
+
         float speedModifiers = 0;
         float damageModifiers = 0;
         float healthModifiers = 0;
@@ -50,21 +62,21 @@ public class Player : MonoBehaviour
 
         speed = baseSpeed + speedModifiers;
         damage = baseDamage + damageModifiers;
-    }
 
-    private void FixedUpdate()
-    {
-        moveVelocity.OnFixedUpdate(this);
-    }
-
-    public void GainAbility(Ability ability)
-    {
-        abilities.Add(ability);
+        EventManager<Ability>.RaiseEvent(EventType.ON_ABILITY_GAIN, _ability);
     }
 
     public void Damage()
     {
         health = health - 1;
-        EventManager<float>.RaiseEvent(EventType.ON_TAKE_DAMAGE, health);
+
+        if(health <= 0)
+        {
+            EventManager<float>.RaiseEvent(EventType.ON_PLAYER_DEATH, health);
+        }
+        else
+        {
+            EventManager<float>.RaiseEvent(EventType.ON_TAKE_DAMAGE, health);
+        }
     }
 }

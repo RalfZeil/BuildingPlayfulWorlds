@@ -41,7 +41,6 @@ public class Monster : MonoBehaviour, IDamageAble
             if (col.tag == "Player")
             {
                 foundPlayer = true;
-                Debug.Log("In Range");
             }
         }
 
@@ -60,7 +59,6 @@ public class Monster : MonoBehaviour, IDamageAble
         if (player != null)
         {
             player?.Damage();
-            Debug.Log("Damaged Player");
         }
     }
 }
