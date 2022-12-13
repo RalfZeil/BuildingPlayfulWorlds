@@ -4,6 +4,7 @@ using UnityEngine.InputSystem;
 public class PlayerAttack : MonoBehaviour
 {
     private PlayerControlls playerControlls;
+    private PlayerInput playerInput;
 
     [SerializeField]
     private GameObject attackPoint;
@@ -11,12 +12,13 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField]
     private float distanceFromPlayer = 1.5f;
 
-    private Animator animator;
+    [SerializeField]
+    private bool usingController = false;
 
     private void Awake()
     {
         playerControlls = new PlayerControlls();
-        animator = GetComponentInChildren<Animator>();
+        playerInput = GetComponent<PlayerInput>();
     }
 
     private void OnEnable()
@@ -31,8 +33,19 @@ public class PlayerAttack : MonoBehaviour
 
     private void Update()
     {
-        Vector3 worldPosition = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
-        Vector3 attackDir = (new Vector2(worldPosition.x, worldPosition.y) - new Vector2(transform.position.x, transform.position.y)).normalized;
+        Vector3 worldPosition;
+        Vector3 attackDir;
+
+        if (!usingController)
+        {
+            worldPosition = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
+            attackDir = (new Vector2(worldPosition.x, worldPosition.y) - new Vector2(transform.position.x, transform.position.y)).normalized;
+        }
+        else
+        {
+            attackDir = playerControlls.Player.Look.ReadValue<Vector2>().normalized;
+        }
+
 
         attackPoint.transform.SetPositionAndRotation(transform.position + attackDir * distanceFromPlayer, Quaternion.Euler(0, 0, attackDir.z));
 
@@ -41,5 +54,12 @@ public class PlayerAttack : MonoBehaviour
             GetComponent<IAttack>().Attack(attackDir);
             EventManager.RaiseEvent(EventType.ON_PLAYER_ATTACK);
         }
+    }
+
+    public void ChangeInputTypeToController()
+    {
+        Debug.Log(playerInput.currentControlScheme);
+        //if(playerInput.currentControlScheme)
+        usingController = true;
     }
 }

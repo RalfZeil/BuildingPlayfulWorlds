@@ -3,7 +3,8 @@ using UnityEngine;
 
 public class ViewManager : MonoBehaviour
 {
-    [SerializeField] private View startingView;
+    [SerializeField] 
+    private View startingView;
 
     [SerializeField] 
     private View[] views;
