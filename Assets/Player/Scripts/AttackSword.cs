@@ -10,11 +10,11 @@ public class AttackSword : Weapon
     Vector3 attackDir;
     [SerializeField] Vector2 boxSize = new Vector2(2f, 4f);
 
-    private Animator animator;
+    
 
     private void Awake()
     {
-        animator = GetComponentInChildren<Animator>();
+
     }
 
     //public override void Attack()

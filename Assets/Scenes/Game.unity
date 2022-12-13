@@ -1104,7 +1104,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackPoint: {fileID: 132210643}
-  distanceFromPlayer: 2
+  distanceFromPlayer: 1.2
 --- !u!114 &1068678562
 MonoBehaviour:
   m_ObjectHideFlags: 0

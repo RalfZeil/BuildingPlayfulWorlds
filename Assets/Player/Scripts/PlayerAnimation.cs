@@ -16,6 +16,7 @@ public class PlayerAnimation : MonoBehaviour
         EventManager<bool>.AddListener(EventType.ON_CHANGE_DIRECTION , SetFlipSprite);
         EventManager<bool>.AddListener(EventType.ON_WALKING, SetWalking);
         EventManager.AddListener(EventType.ON_PLAYER_DEATH, SetDead);
+        EventManager.AddListener(EventType.ON_PLAYER_ATTACK, SetAnimTriggerAttack);
     }
 
     private void SetAnimTriggerTakeDamage(float health)
@@ -37,6 +38,11 @@ public class PlayerAnimation : MonoBehaviour
     private void SetDead()
     {
         SetAnimBool("IsDead", true);
+    }
+
+    private void SetAnimTriggerAttack()
+    {
+        animator.SetTrigger("Attack");
     }
 
     public void SetFlipSprite(bool flip)

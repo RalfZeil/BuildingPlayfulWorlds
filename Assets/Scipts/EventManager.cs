@@ -7,6 +7,7 @@ public enum EventType
     ON_ABILITY_GAIN = 2,
     ON_CHANGE_DIRECTION = 3,
     ON_WALKING = 4,
+    ON_PLAYER_ATTACK = 5,
 
 }
 

@@ -11,9 +11,12 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField]
     private float distanceFromPlayer = 1.5f;
 
+    private Animator animator;
+
     private void Awake()
     {
         playerControlls = new PlayerControlls();
+        animator = GetComponentInChildren<Animator>();
     }
 
     private void OnEnable()
@@ -36,6 +39,7 @@ public class PlayerAttack : MonoBehaviour
         if (playerControlls.Player.Fire.WasPressedThisFrame())
         {
             GetComponent<IAttack>().Attack(attackDir);
+            EventManager.RaiseEvent(EventType.ON_PLAYER_ATTACK);
         }
     }
 }
