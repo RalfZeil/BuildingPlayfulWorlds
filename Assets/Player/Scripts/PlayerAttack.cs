@@ -1,10 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerAttack : MonoBehaviour
 {
     private PlayerControlls playerControlls;
+
+    [SerializeField]
+    private GameObject attackPoint;
+
+    [SerializeField]
+    private float distanceFromPlayer = 1.5f;
 
     private void Awake()
     {
@@ -23,9 +28,14 @@ public class PlayerAttack : MonoBehaviour
 
     private void Update()
     {
-        if (playerControlls.Player.Fire.IsPressed())
+        Vector3 worldPosition = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
+        Vector3 attackDir = (new Vector2(worldPosition.x, worldPosition.y) - new Vector2(transform.position.x, transform.position.y)).normalized;
+
+        attackPoint.transform.SetPositionAndRotation(transform.position + attackDir * distanceFromPlayer, Quaternion.Euler(0, 0, attackDir.z));
+
+        if (playerControlls.Player.Fire.WasPressedThisFrame())
         {
-            GetComponent<IAttack>().Attack();
+            GetComponent<IAttack>().Attack(attackDir);
         }
     }
 }

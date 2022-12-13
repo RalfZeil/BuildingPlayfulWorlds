@@ -1,16 +1,14 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using UnityEditor.Rendering;
 using UnityEngine;
 
 public class ViewManager : MonoBehaviour
 {
-    private static ViewManager instance;
-
     [SerializeField] private View startingView;
 
-    [SerializeField] private View[] views;
+    [SerializeField] 
+    private View[] views;
+
+    private static ViewManager instance;
 
     private View currentView;
 

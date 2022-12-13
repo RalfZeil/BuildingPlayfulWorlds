@@ -72,11 +72,13 @@ public class Player : MonoBehaviour
 
         if(health <= 0)
         {
-            EventManager<float>.RaiseEvent(EventType.ON_PLAYER_DEATH, health);
+            EventManager.RaiseEvent(EventType.ON_PLAYER_DEATH);
         }
-        else
+
+        if(health >= 0)
         {
             EventManager<float>.RaiseEvent(EventType.ON_TAKE_DAMAGE, health);
         }
+        
     }
 }

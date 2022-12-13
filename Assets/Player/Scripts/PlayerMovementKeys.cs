@@ -11,6 +11,8 @@ public class PlayerMovementKeys : MonoBehaviour
     private void Awake()
     {
         playerControlls = new PlayerControlls();
+
+        EventManager.AddListener(EventType.ON_PLAYER_DEATH, OnDisable);
     }
 
     private void OnEnable()

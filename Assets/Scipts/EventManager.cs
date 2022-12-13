@@ -1,12 +1,12 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 
 public enum EventType
 {
     ON_TAKE_DAMAGE = 0,
     ON_PLAYER_DEATH = 1,
     ON_ABILITY_GAIN = 2,
+    ON_CHANGE_DIRECTION = 3,
+    ON_WALKING = 4,
 
 }
 
