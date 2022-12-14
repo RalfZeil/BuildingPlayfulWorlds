@@ -38,12 +38,23 @@ public class PlayerAttack : MonoBehaviour
 
         if (!usingController)
         {
+            attackPoint.SetActive(true);
+
             worldPosition = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
             attackDir = (new Vector2(worldPosition.x, worldPosition.y) - new Vector2(transform.position.x, transform.position.y)).normalized;
         }
         else
         {
             attackDir = playerControlls.Player.Look.ReadValue<Vector2>().normalized;
+
+            if(attackDir == new Vector3(0, 0, 0))
+            {
+                attackPoint.SetActive(false);
+            }
+            else
+            {
+                attackPoint.SetActive(true);
+            }
         }
 
 
@@ -58,8 +69,13 @@ public class PlayerAttack : MonoBehaviour
 
     public void ChangeInputTypeToController()
     {
-        Debug.Log(playerInput.currentControlScheme);
-        //if(playerInput.currentControlScheme)
-        usingController = true;
+        if(playerInput?.currentControlScheme == "Gamepad")
+        {
+            usingController = true;
+        }
+        else
+        {
+            usingController = false;
+        }
     }
 }
