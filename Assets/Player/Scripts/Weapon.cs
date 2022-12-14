@@ -4,5 +4,5 @@ using UnityEngine;
 
 public abstract class Weapon : MonoBehaviour, IAttack
 {
-    public abstract void Attack();
+    public abstract void Attack(Vector2 direction);
 }
