@@ -36,36 +36,6 @@ public class Player : MonoBehaviour
         moveVelocity.OnFixedUpdate(this);
     }
 
-    public void GainAbility(Ability _ability)
-    {
-        abilities.Add(_ability);
-
-        float speedModifiers = 0;
-        float damageModifiers = 0;
-        float healthModifiers = 0;
-
-        foreach (Ability ability in abilities)
-        {
-            if (ability.boostType.Equals("speed"))
-            {
-                speedModifiers = speedModifiers + ability.value;
-            }
-            else if (ability.boostType.Equals("damage"))
-            {
-                damageModifiers = damageModifiers + ability.value;
-            }
-            else if (ability.boostType.Equals("health"))
-            {
-                healthModifiers = healthModifiers + ability.value;
-            }
-        }
-
-        speed = baseSpeed + speedModifiers;
-        damage = baseDamage + damageModifiers;
-
-        EventManager<Ability>.RaiseEvent(EventType.ON_ABILITY_GAIN, _ability);
-    }
-
     public void Damage()
     {
         health = health - 1;

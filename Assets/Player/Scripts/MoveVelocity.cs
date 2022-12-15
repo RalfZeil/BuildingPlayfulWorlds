@@ -39,6 +39,10 @@ public class MoveVelocity : MonoBehaviour, IMoveVelocity
 
             EventManager<bool>.RaiseEvent(EventType.ON_WALKING, true);
         }
+        else if(velocityVector.y < 0 || velocityVector.y > 0)
+        {
+            EventManager<bool>.RaiseEvent(EventType.ON_WALKING, true);
+        }
         else
         {
             EventManager<bool>.RaiseEvent(EventType.ON_WALKING, false);

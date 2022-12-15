@@ -13,7 +13,7 @@ public class Pickup : MonoBehaviour
 
         if(player != null)
         {
-            player?.GainAbility(Instantiate(pickupAbility));
+            EventManager.RaiseEvent(EventType.ON_ABILITY_GAIN);
             Destroy(gameObject);
         }
 

@@ -9,9 +9,6 @@ public class PlayerAnimation : MonoBehaviour
 
     private void Awake()
     {
-        animator = GetComponent<Animator>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
-
         EventManager<float>.AddListener(EventType.ON_TAKE_DAMAGE, SetAnimTriggerTakeDamage);
         EventManager<bool>.AddListener(EventType.ON_CHANGE_DIRECTION , SetFlipSprite);
         EventManager<bool>.AddListener(EventType.ON_WALKING, SetWalking);
@@ -19,10 +16,15 @@ public class PlayerAnimation : MonoBehaviour
         EventManager.AddListener(EventType.ON_PLAYER_ATTACK, SetAnimTriggerAttack);
     }
 
+    private void Start()
+    {
+        animator = GetComponent<Animator>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
+    }
+
     private void SetAnimTriggerTakeDamage(float health)
     {
         animator.SetTrigger("TakeDamage");
-        Debug.Log("Animation Damage");
     }
 
     private void SetAnimBool(string boolName, bool status)
