@@ -5,12 +5,13 @@ using UnityEngine.Rendering;
 
 public class Player : MonoBehaviour
 {
-    public IMoveVelocity moveVelocity;
+    private IMoveVelocity moveVelocity;
 
-    public List<Ability> abilities = new List<Ability>();
+    private List<Ability> abilities = new List<Ability>();
 
-    public float baseHealth = 5;
-    public float health;
+    public float baseMaxHealth = 5;
+    public float maxHealth;
+    public float currentHealth;
 
     public float baseSpeed = 4f;
     public float speed;
@@ -20,15 +21,10 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
+        EventManager<Ability>.AddListener(EventType.ON_GIVE_ABILITY, GainAbility);
         moveVelocity = GetComponent<IMoveVelocity>();
 
-        health = baseHealth;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        maxHealth = baseMaxHealth;
     }
 
     private void FixedUpdate()
@@ -36,18 +32,37 @@ public class Player : MonoBehaviour
         moveVelocity.OnFixedUpdate(this);
     }
 
+    private void GainAbility(Ability ability)
+    {
+        abilities.Add(ability);
+
+        switch (ability.boostType)
+        {
+            case "speed":
+                speed = speed + ability.value;
+                break;
+            case "health":
+                maxHealth = maxHealth + ability.value;
+                break;
+            case "damage":
+                damage = damage + ability.value;
+                break;
+        }
+
+    }
+
     public void Damage()
     {
-        health = health - 1;
+        maxHealth = maxHealth - 1;
 
-        if(health <= 0)
+        if(maxHealth <= 0)
         {
             EventManager.RaiseEvent(EventType.ON_PLAYER_DEATH);
         }
 
-        if(health >= 0)
+        if(maxHealth >= 0)
         {
-            EventManager<float>.RaiseEvent(EventType.ON_TAKE_DAMAGE, health);
+            EventManager<float>.RaiseEvent(EventType.ON_TAKE_DAMAGE, maxHealth);
         }
         
     }

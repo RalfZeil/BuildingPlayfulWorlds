@@ -5,6 +5,7 @@ using UnityEngine;
 public abstract class Ability : ScriptableObject
 {
     public string boostType;
+    public string title;
     public string desc;
     public float value;
     public int rarity;

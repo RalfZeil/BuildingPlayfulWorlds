@@ -499,6 +499,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f92c19fe5b5ab840a92b24e64726ebb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  titles:
+  - {fileID: 2127423016}
+  - {fileID: 1360510605}
+  - {fileID: 1033022917}
+  descs:
+  - {fileID: 1313021851}
+  - {fileID: 331521064}
+  - {fileID: 782302733}
+  button1: {fileID: 806540152}
+  button2: {fileID: 991351348}
+  button3: {fileID: 1139427220}
 --- !u!1 &292092591
 GameObject:
   m_ObjectHideFlags: 0
@@ -629,7 +640,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 874bf1e761b4774459f71aecc7bb660d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pickupAbility: {fileID: 11400000, guid: 8a2d93c4cc5350f4795e203007df7846, type: 2}
+  abilities:
+  - {fileID: 11400000, guid: 46ce55efc7f32fe42b421fbff75c7b37, type: 2}
+  - {fileID: 11400000, guid: c17efc560cd14ca418aa86ef9fc4d54f, type: 2}
+  - {fileID: 11400000, guid: 8a2d93c4cc5350f4795e203007df7846, type: 2}
 --- !u!4 &293265950
 Transform:
   m_ObjectHideFlags: 0
@@ -2217,9 +2231,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38aa2afac330a864a80904203d590357, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  abilities: []
-  baseHealth: 5
-  health: 5
+  baseMaxHealth: 5
+  maxHealth: 0
+  currentHealth: 0
   baseSpeed: 4
   speed: 4
   baseDamage: 1

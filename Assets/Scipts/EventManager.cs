@@ -8,7 +8,7 @@ public enum EventType
     ON_CHANGE_DIRECTION = 3,
     ON_WALKING = 4,
     ON_PLAYER_ATTACK = 5,
-
+    ON_GIVE_ABILITY = 6,
 }
 
 public static class EventManager
