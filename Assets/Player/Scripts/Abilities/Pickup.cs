@@ -1,11 +1,11 @@
+using Newtonsoft.Json.Bson;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Pickup : MonoBehaviour
 {
-    public Ability pickupAbility;
-
+    public Ability[] abilities;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -13,8 +13,7 @@ public class Pickup : MonoBehaviour
 
         if(player != null)
         {
-            player?.GainAbility(Instantiate(pickupAbility));
-            Destroy(gameObject);
+            EventManager<Ability[]>.RaiseEvent(EventType.ON_ABILITY_GAIN, abilities);
         }
 
     }

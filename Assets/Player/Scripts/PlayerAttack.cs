@@ -19,6 +19,8 @@ public class PlayerAttack : MonoBehaviour
     {
         playerControlls = new PlayerControlls();
         playerInput = GetComponent<PlayerInput>();
+
+        EventManager.AddListener(EventType.ON_PLAYER_DEATH, OnDisable);
     }
 
     private void OnEnable()
@@ -57,8 +59,10 @@ public class PlayerAttack : MonoBehaviour
             }
         }
 
-
-        attackPoint.transform.SetPositionAndRotation(transform.position + attackDir * distanceFromPlayer, Quaternion.Euler(0, 0, attackDir.z));
+        //Set position and rotation of the attackpoint
+        attackPoint.transform.position = (transform.position + attackDir * distanceFromPlayer);
+        float rot_z = Mathf.Atan2(attackDir.y, attackDir.x) * Mathf.Rad2Deg;
+        attackPoint.transform.rotation = Quaternion.Euler(0f, 0f, rot_z - 90);
 
         if (playerControlls.Player.Fire.WasPressedThisFrame())
         {

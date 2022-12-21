@@ -5,8 +5,14 @@ using UnityEngine;
 public class Monster : MonoBehaviour, IDamageable
 {
 
-    [SerializeField] private SpriteRenderer spriteRenderer;
+    [SerializeField] 
+    private SpriteRenderer spriteRenderer;
     private FiniteStateMachine fsm;
+
+    [SerializeField]
+    private float lookRange;
+    [SerializeField]
+    private float attackRange;
 
     void Start()
     {
@@ -17,10 +23,13 @@ public class Monster : MonoBehaviour, IDamageable
     {
         IState idleState = new IdleState(this);
         IState followState = new FollowState(this);
+        IState deadState = new DeadState(this);
+        IState attackState = new AttackState(this);
 
         fsm = new FiniteStateMachine(idleState, followState);
 
-        fsm.AddTransition(new Transition(idleState, followState, IsInRange));
+        fsm.AddTransition(new Transition(idleState, followState, IsInFollowRange));
+        fsm.AddTransition(new Transition(followState, attackState, IsInAttackRange));
 
         fsm.SwitchState(idleState);
     }
@@ -30,11 +39,11 @@ public class Monster : MonoBehaviour, IDamageable
         fsm?.OnFixedUpdate();
     }
 
-    public bool IsInRange()
+    public bool IsInFollowRange()
     {
         bool foundPlayer = false;
 
-        Collider2D[] scan = Physics2D.OverlapCircleAll(this.transform.position, 5f);
+        Collider2D[] scan = Physics2D.OverlapCircleAll(this.transform.position, lookRange);
 
         foreach (Collider2D col in scan)
         {
@@ -45,6 +54,23 @@ public class Monster : MonoBehaviour, IDamageable
         }
 
         return foundPlayer;
+    }
+
+    public bool IsInAttackRange()
+    {
+        bool inAttackRange = false;
+
+        Collider2D[] scan = Physics2D.OverlapCircleAll(this.transform.position, attackRange);
+
+        foreach (Collider2D col in scan)
+        {
+            if (col.tag == "Player")
+            {
+                inAttackRange = true;
+            }
+        }
+
+        return inAttackRange;
     }
 
     public void Damage()

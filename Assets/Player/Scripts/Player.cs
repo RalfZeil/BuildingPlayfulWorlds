@@ -5,30 +5,32 @@ using UnityEngine.Rendering;
 
 public class Player : MonoBehaviour
 {
-    public IMoveVelocity moveVelocity;
+    private IMoveVelocity moveVelocity;
 
-    public List<Ability> abilities = new List<Ability>();
+    private List<Ability> abilities = new List<Ability>();
 
-    public float baseHealth = 5;
-    public float health;
+    [SerializeField]
+    private float baseMaxHealth = 5;
+    private float maxHealth;
+    private float currentHealth;
 
-    public float baseSpeed = 4f;
-    public float speed;
+    [SerializeField]
+    private float baseSpeed = 4f;
+    private float speed;
 
-    public float baseDamage = 1f;
-    public float damage;
+    [SerializeField]
+    private float baseDamage = 1f;
+    private float damage;
 
     private void Start()
     {
+        EventManager<Ability>.AddListener(EventType.ON_GIVE_ABILITY, GainAbility);
         moveVelocity = GetComponent<IMoveVelocity>();
 
-        health = baseHealth;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        maxHealth = baseMaxHealth;
+        currentHealth = maxHealth;
+        speed = baseSpeed;
+        damage = baseDamage;
     }
 
     private void FixedUpdate()
@@ -36,49 +38,47 @@ public class Player : MonoBehaviour
         moveVelocity.OnFixedUpdate(this);
     }
 
-    public void GainAbility(Ability _ability)
+    private void GainAbility(Ability ability)
     {
-        abilities.Add(_ability);
+        abilities.Add(ability);
 
-        float speedModifiers = 0;
-        float damageModifiers = 0;
-        float healthModifiers = 0;
-
-        foreach (Ability ability in abilities)
+        switch (ability.boostType)
         {
-            if (ability.boostType.Equals("speed"))
-            {
-                speedModifiers = speedModifiers + ability.value;
-            }
-            else if (ability.boostType.Equals("damage"))
-            {
-                damageModifiers = damageModifiers + ability.value;
-            }
-            else if (ability.boostType.Equals("health"))
-            {
-                healthModifiers = healthModifiers + ability.value;
-            }
+            case "speed":
+                speed = speed + ability.value;
+                break;
+            case "health":
+                maxHealth = maxHealth + ability.value;
+                currentHealth = currentHealth + ability.value;
+                EventManager<float>.RaiseEvent(EventType.ON_HEALTH_GAIN, currentHealth/maxHealth);
+                break;
+            case "damage":
+                damage = damage + ability.value;
+                break;
         }
 
-        speed = baseSpeed + speedModifiers;
-        damage = baseDamage + damageModifiers;
-
-        EventManager<Ability>.RaiseEvent(EventType.ON_ABILITY_GAIN, _ability);
     }
 
     public void Damage()
     {
-        health = health - 1;
+        currentHealth = currentHealth - 1;
 
-        if(health <= 0)
+        Debug.Log(currentHealth);
+
+        if(currentHealth <= 0)
         {
             EventManager.RaiseEvent(EventType.ON_PLAYER_DEATH);
         }
 
-        if(health >= 0)
+        if(currentHealth >= 0)
         {
-            EventManager<float>.RaiseEvent(EventType.ON_TAKE_DAMAGE, health);
+            EventManager<float>.RaiseEvent(EventType.ON_TAKE_DAMAGE, currentHealth/maxHealth);
         }
         
+    }
+
+    public float GetBaseSpeed()
+    {
+        return speed;
     }
 }

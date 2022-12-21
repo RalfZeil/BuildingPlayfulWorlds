@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 79f60a55080afe440bdfe2bd180b8d43, type: 3}
-  m_Name: SuperSpeedBoost
+  m_Name: LedgendarySpeedBoost
   m_EditorClassIdentifier: 
   boostType: speed
-  title: Super speed boost
-  desc: Boosts the player significantly
-  value: 2
-  rarity: 5
+  title: Ledgendary Speed Boost
+  desc: Doubles the player speed
+  value: 4
+  rarity: 10
