@@ -14,6 +14,7 @@ public class DeadState : State<Monster>
 
     public virtual void OnEnter()
     {
+        Owner.animator.Play("Death");
     }
 
     public virtual void OnExit()

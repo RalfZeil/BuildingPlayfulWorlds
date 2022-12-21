@@ -15,6 +15,7 @@ public class FollowState : State<Monster>
 
     public override void OnEnter()
     {
+        Owner.animator.Play("Walking");
     }
 
     public override void OnExit()

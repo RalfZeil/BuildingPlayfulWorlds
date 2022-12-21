@@ -14,6 +14,7 @@ public class AttackState : State<Monster>
 
     public virtual void OnEnter()
     {
+        Owner.animator.Play("Attack");
     }
 
     public virtual void OnExit()

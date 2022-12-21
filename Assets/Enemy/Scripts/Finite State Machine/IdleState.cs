@@ -11,6 +11,7 @@ public class IdleState : State<Monster>
 
     public override void OnEnter()
     {
+        Owner.animator.Play("Idle");
     }
 
     public override void OnExit()

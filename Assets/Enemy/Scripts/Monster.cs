@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Monster : MonoBehaviour, IDamageable
@@ -8,15 +6,18 @@ public class Monster : MonoBehaviour, IDamageable
     [SerializeField] 
     private SpriteRenderer spriteRenderer;
     private FiniteStateMachine fsm;
-
+    
     [SerializeField]
     private float lookRange;
     [SerializeField]
     private float attackRange;
 
+    public Animator animator;
+
     void Start()
     {
         SetupStateMachine();
+        animator = GetComponentInChildren<Animator>();
     }
 
     private void SetupStateMachine()
@@ -30,6 +31,8 @@ public class Monster : MonoBehaviour, IDamageable
 
         fsm.AddTransition(new Transition(idleState, followState, IsInFollowRange));
         fsm.AddTransition(new Transition(followState, attackState, IsInAttackRange));
+        fsm.AddTransition(new Transition(attackState, followState, IsNotInAttackRange));
+        fsm.AddTransition(new Transition(followState, idleState, IsNotInFollowRange));
 
         fsm.SwitchState(idleState);
     }
@@ -71,6 +74,16 @@ public class Monster : MonoBehaviour, IDamageable
         }
 
         return inAttackRange;
+    }
+
+    public bool IsNotInAttackRange()
+    {
+        return !IsInAttackRange();
+    }
+
+    public bool IsNotInFollowRange()
+    {
+        return !IsInFollowRange();
     }
 
     public void Damage()
