@@ -8,16 +8,17 @@ public class AttackState : State<Monster>
     {
     }
 
-    public virtual void OnUpdate()
+    public override void OnUpdate()
     {
     }
 
-    public virtual void OnEnter()
+    public override void OnEnter()
     {
+        Debug.Log("Entered Attack State");
         Owner.animator.Play("Attack");
     }
 
-    public virtual void OnExit()
+    public override void OnExit()
     {
     }
 }

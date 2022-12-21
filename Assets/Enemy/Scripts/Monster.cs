@@ -2,9 +2,6 @@ using UnityEngine;
 
 public class Monster : MonoBehaviour, IDamageable
 {
-
-    [SerializeField] 
-    private SpriteRenderer spriteRenderer;
     private FiniteStateMachine fsm;
     
     [SerializeField]
@@ -12,12 +9,18 @@ public class Monster : MonoBehaviour, IDamageable
     [SerializeField]
     private float attackRange;
 
+    private float maxHealth = 100;
+    private float currentHealth;
+    private bool isDead = false;
+
     public Animator animator;
 
     void Start()
     {
         SetupStateMachine();
         animator = GetComponentInChildren<Animator>();
+        
+        currentHealth = maxHealth;
     }
 
     private void SetupStateMachine()
@@ -33,6 +36,10 @@ public class Monster : MonoBehaviour, IDamageable
         fsm.AddTransition(new Transition(followState, attackState, IsInAttackRange));
         fsm.AddTransition(new Transition(attackState, followState, IsNotInAttackRange));
         fsm.AddTransition(new Transition(followState, idleState, IsNotInFollowRange));
+
+        fsm.AddTransition(new Transition(idleState, deadState, IsDead));
+        fsm.AddTransition(new Transition(followState, deadState, IsDead));
+        fsm.AddTransition(new Transition(attackState, deadState, IsDead));
 
         fsm.SwitchState(idleState);
     }
@@ -86,9 +93,19 @@ public class Monster : MonoBehaviour, IDamageable
         return !IsInFollowRange();
     }
 
-    public void Damage()
+    public bool IsDead()
     {
-        spriteRenderer.color = new Color(1, 0, 0);
+        return isDead;
+    }
+
+    public void Damage(float damage)
+    {
+        currentHealth = currentHealth - damage;
+
+        if(currentHealth < 0)
+        {
+            isDead = true;
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

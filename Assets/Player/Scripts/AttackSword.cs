@@ -2,8 +2,15 @@ using UnityEngine;
 
 public class AttackSword : Weapon
 {
+    private Player player;
     private Vector3 attackDir;
-    [SerializeField] float attackSize = 0.5f;
+    [SerializeField] 
+    float attackSize = 0.5f;
+
+    private void Start()
+    {
+        player = GetComponent<Player>();
+    }
 
     public override void Attack(Vector2 direction)
     {
@@ -16,7 +23,7 @@ public class AttackSword : Weapon
         foreach (Collider2D collider in colliders)
         {
             collider.TryGetComponent(out IDamageable Idamageable);
-            Idamageable?.Damage();
+            Idamageable?.Damage(player.GetDamage());
         }
     }
 

@@ -8,16 +8,18 @@ public class DeadState : State<Monster>
     {
     }
 
-    public virtual void OnUpdate()
+    public override void OnUpdate()
     {
     }
 
-    public virtual void OnEnter()
+    public override void OnEnter()
     {
         Owner.animator.Play("Death");
+        Owner.GetComponent<Monster>().enabled = false;
+        Owner.GetComponent<BoxCollider2D>().enabled = false;
     }
 
-    public virtual void OnExit()
+    public override void OnExit()
     {
     }
 }

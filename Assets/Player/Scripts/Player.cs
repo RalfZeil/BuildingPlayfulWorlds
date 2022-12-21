@@ -77,8 +77,13 @@ public class Player : MonoBehaviour
         
     }
 
-    public float GetBaseSpeed()
+    public float GetSpeed()
     {
         return speed;
+    }
+
+    public float GetDamage()
+    {
+        return damage;
     }
 }
