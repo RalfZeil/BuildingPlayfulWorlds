@@ -9,6 +9,7 @@ public enum EventType
     ON_WALKING = 4,
     ON_PLAYER_ATTACK = 5,
     ON_GIVE_ABILITY = 6,
+    ON_HEALTH_GAIN = 7,
 }
 
 public static class EventManager

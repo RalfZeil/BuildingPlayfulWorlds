@@ -9,15 +9,18 @@ public class Player : MonoBehaviour
 
     private List<Ability> abilities = new List<Ability>();
 
-    public float baseMaxHealth = 5;
-    public float maxHealth;
-    public float currentHealth;
+    [SerializeField]
+    private float baseMaxHealth = 5;
+    private float maxHealth;
+    private float currentHealth;
 
-    public float baseSpeed = 4f;
-    public float speed;
+    [SerializeField]
+    private float baseSpeed = 4f;
+    private float speed;
 
-    public float baseDamage = 1f;
-    public float damage;
+    [SerializeField]
+    private float baseDamage = 1f;
+    private float damage;
 
     private void Start()
     {
@@ -25,6 +28,9 @@ public class Player : MonoBehaviour
         moveVelocity = GetComponent<IMoveVelocity>();
 
         maxHealth = baseMaxHealth;
+        currentHealth = maxHealth;
+        speed = baseSpeed;
+        damage = baseDamage;
     }
 
     private void FixedUpdate()
@@ -43,6 +49,8 @@ public class Player : MonoBehaviour
                 break;
             case "health":
                 maxHealth = maxHealth + ability.value;
+                currentHealth = currentHealth + ability.value;
+                EventManager<float>.RaiseEvent(EventType.ON_HEALTH_GAIN, currentHealth/maxHealth);
                 break;
             case "damage":
                 damage = damage + ability.value;
@@ -53,17 +61,24 @@ public class Player : MonoBehaviour
 
     public void Damage()
     {
-        maxHealth = maxHealth - 1;
+        currentHealth = currentHealth - 1;
 
-        if(maxHealth <= 0)
+        Debug.Log(currentHealth);
+
+        if(currentHealth <= 0)
         {
             EventManager.RaiseEvent(EventType.ON_PLAYER_DEATH);
         }
 
-        if(maxHealth >= 0)
+        if(currentHealth >= 0)
         {
-            EventManager<float>.RaiseEvent(EventType.ON_TAKE_DAMAGE, maxHealth);
+            EventManager<float>.RaiseEvent(EventType.ON_TAKE_DAMAGE, currentHealth/maxHealth);
         }
         
+    }
+
+    public float GetBaseSpeed()
+    {
+        return speed;
     }
 }

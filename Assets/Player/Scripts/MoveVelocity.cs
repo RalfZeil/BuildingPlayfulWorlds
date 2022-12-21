@@ -51,6 +51,6 @@ public class MoveVelocity : MonoBehaviour, IMoveVelocity
 
     public void OnFixedUpdate(Player player)
     {
-        rb.velocity = velocityVector * player.speed;
+        rb.velocity = velocityVector * player.GetBaseSpeed();
     }
 }
