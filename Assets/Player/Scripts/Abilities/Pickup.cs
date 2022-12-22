@@ -14,6 +14,8 @@ public class Pickup : MonoBehaviour
         if(player != null)
         {
             EventManager<Ability[]>.RaiseEvent(EventType.ON_ABILITY_GAIN, abilities);
+
+            Destroy(gameObject);
         }
 
     }

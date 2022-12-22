@@ -3,6 +3,11 @@ using UnityEngine;
 public class Monster : MonoBehaviour, IDamageable
 {
     private FiniteStateMachine fsm;
+
+    [SerializeField]
+    private GameObject pickupPrefab;
+    [SerializeField]
+    private ParticleSystem hitParticle;
     
     [SerializeField]
     private float lookRange;
@@ -13,7 +18,9 @@ public class Monster : MonoBehaviour, IDamageable
     private float currentHealth;
     private bool isDead = false;
 
+    public bool isRecovering = false;
     public Animator animator;
+    public SpriteRenderer spriteRenderer;
 
     void Start()
     {
@@ -29,17 +36,21 @@ public class Monster : MonoBehaviour, IDamageable
         IState followState = new FollowState(this);
         IState deadState = new DeadState(this);
         IState attackState = new AttackState(this);
+        IState attackRecoverState = new AttackRecoverState(this);
 
-        fsm = new FiniteStateMachine(idleState, followState);
+
+        fsm = new FiniteStateMachine(idleState, followState, deadState, attackRecoverState, attackState);
 
         fsm.AddTransition(new Transition(idleState, followState, IsInFollowRange));
         fsm.AddTransition(new Transition(followState, attackState, IsInAttackRange));
-        fsm.AddTransition(new Transition(attackState, followState, IsNotInAttackRange));
         fsm.AddTransition(new Transition(followState, idleState, IsNotInFollowRange));
+        fsm.AddTransition(new Transition(attackState, attackRecoverState, IsRecovering));
+        fsm.AddTransition(new Transition(attackRecoverState, idleState, IsNotRecovering));
 
         fsm.AddTransition(new Transition(idleState, deadState, IsDead));
         fsm.AddTransition(new Transition(followState, deadState, IsDead));
         fsm.AddTransition(new Transition(attackState, deadState, IsDead));
+        fsm.AddTransition(new Transition(attackRecoverState, deadState, IsDead));
 
         fsm.SwitchState(idleState);
     }
@@ -93,6 +104,16 @@ public class Monster : MonoBehaviour, IDamageable
         return !IsInFollowRange();
     }
 
+    public bool IsRecovering()
+    {
+        return isRecovering;
+    }
+
+    public bool IsNotRecovering()
+    {
+        return !isRecovering;
+    }
+
     public bool IsDead()
     {
         return isDead;
@@ -101,10 +122,13 @@ public class Monster : MonoBehaviour, IDamageable
     public void Damage(float damage)
     {
         currentHealth = currentHealth - damage;
+        hitParticle.Play();
 
         if(currentHealth < 0)
         {
             isDead = true;
+
+            RollForPickup();
         }
     }
 
@@ -115,6 +139,14 @@ public class Monster : MonoBehaviour, IDamageable
         if (player != null)
         {
             player?.Damage();
+        }
+    }
+
+    private void RollForPickup()
+    {
+        if(true)
+        {
+            Instantiate(pickupPrefab, new Vector3(transform.position.x, transform.position.y, 0), Quaternion.identity);
         }
     }
 }

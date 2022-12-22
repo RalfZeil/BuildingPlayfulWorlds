@@ -22,6 +22,8 @@ public class Player : MonoBehaviour
     private float baseDamage = 1f;
     private float damage;
 
+    private float damageTimer;
+
     private void Start()
     {
         EventManager<Ability>.AddListener(EventType.ON_GIVE_ABILITY, GainAbility);
@@ -36,6 +38,14 @@ public class Player : MonoBehaviour
     private void FixedUpdate()
     {
         moveVelocity.OnFixedUpdate(this);
+    }
+
+    private void Update()
+    {
+        if(damageTimer > 0)
+        {
+            damageTimer = damageTimer - Time.deltaTime;
+        }
     }
 
     private void GainAbility(Ability ability)
@@ -61,20 +71,24 @@ public class Player : MonoBehaviour
 
     public void Damage()
     {
-        currentHealth = currentHealth - 1;
-
-        Debug.Log(currentHealth);
-
-        if(currentHealth <= 0)
+        if(damageTimer <= 0)
         {
-            EventManager.RaiseEvent(EventType.ON_PLAYER_DEATH);
-        }
+            damageTimer = 1;
 
-        if(currentHealth >= 0)
-        {
-            EventManager<float>.RaiseEvent(EventType.ON_TAKE_DAMAGE, currentHealth/maxHealth);
+            currentHealth = currentHealth - 1;
+
+            Debug.Log(currentHealth);
+
+            if (currentHealth <= 0)
+            {
+                EventManager.RaiseEvent(EventType.ON_PLAYER_DEATH);
+            }
+
+            if (currentHealth >= 0)
+            {
+                EventManager<float>.RaiseEvent(EventType.ON_TAKE_DAMAGE, currentHealth / maxHealth);
+            }
         }
-        
     }
 
     public float GetSpeed()

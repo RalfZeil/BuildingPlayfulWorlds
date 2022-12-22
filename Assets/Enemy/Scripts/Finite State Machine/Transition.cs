@@ -1,7 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 public class Transition
 {
@@ -16,7 +13,8 @@ public class Transition
         this.condition = condition;
     }
 
-    public bool Evalutate(){
+    public bool Evalutate()
+    {
         return condition();
     }
 }
