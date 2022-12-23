@@ -1,7 +1,7 @@
 # BuildingPlayfulWorlds
  School project for Building Playful Worlds
 
-#Used Assets
+# Used Assets
 MiniFolks Undead by LYASeeK
 https://lyaseek.itch.io/minifundead
 
