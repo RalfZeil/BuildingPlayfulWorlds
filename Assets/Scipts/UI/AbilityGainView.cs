@@ -27,6 +27,11 @@ public class AbilityGainView : View
         button3.onClick.AddListener(() => GiveAbility(2));
     }
 
+    private void OnDestroy()
+    {
+        EventManager<Ability[]>.RemoveListener(EventType.ON_ABILITY_GAIN, ShowAvaliableAbilities);
+    }
+
     private void ShowAvaliableAbilities(Ability[] abilities)
     {
         ViewManager.Show(this);

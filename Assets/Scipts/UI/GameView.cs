@@ -13,6 +13,12 @@ public class GameView : View
         EventManager<float>.AddListener(EventType.ON_HEALTH_GAIN, UpdateHealth);
     }
 
+    private void OnDestroy()
+    {
+        EventManager<float>.RemoveListener(EventType.ON_TAKE_DAMAGE, UpdateHealth);
+        EventManager<float>.RemoveListener(EventType.ON_HEALTH_GAIN, UpdateHealth);
+    }
+
     private void UpdateHealth(float health)
     {
         healthSlider.value = health;

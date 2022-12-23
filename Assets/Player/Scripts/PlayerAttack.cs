@@ -31,6 +31,7 @@ public class PlayerAttack : MonoBehaviour
     private void OnDisable()
     {
         playerControlls?.Player.Disable();
+        EventManager.RemoveListener(EventType.ON_PLAYER_DEATH, OnDisable);
     }
 
     private void Update()

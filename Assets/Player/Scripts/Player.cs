@@ -35,6 +35,11 @@ public class Player : MonoBehaviour
         damage = baseDamage;
     }
 
+    private void OnDestroy()
+    {
+        EventManager<Ability>.RemoveListener(EventType.ON_GIVE_ABILITY, GainAbility);
+    }
+
     private void FixedUpdate()
     {
         moveVelocity.OnFixedUpdate(this);

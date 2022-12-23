@@ -12,6 +12,12 @@ public class GameManager : MonoBehaviour
         EventManager.AddListener(EventType.ON_PLAYER_DEATH, ChangeSceneToDeath);
     }
 
+    private void OnDestroy()
+    {
+        EventManager.RemoveListener(EventType.ON_WIN, ChangeSceneToWin);
+        EventManager.RemoveListener(EventType.ON_PLAYER_DEATH, ChangeSceneToDeath);
+    }
+
     private void ChangeSceneToWin()
     {
         SceneManager.LoadScene("WinScene");

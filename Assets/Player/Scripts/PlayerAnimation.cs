@@ -16,6 +16,15 @@ public class PlayerAnimation : MonoBehaviour
         EventManager.AddListener(EventType.ON_PLAYER_ATTACK, SetAnimTriggerAttack);
     }
 
+    private void OnDestroy()
+    {
+        EventManager<float>.RemoveListener(EventType.ON_TAKE_DAMAGE, SetAnimTriggerTakeDamage);
+        EventManager<bool>.RemoveListener(EventType.ON_CHANGE_DIRECTION, SetFlipSprite);
+        EventManager<bool>.RemoveListener(EventType.ON_WALKING, SetWalking);
+        EventManager.RemoveListener(EventType.ON_PLAYER_DEATH, SetDead);
+        EventManager.RemoveListener(EventType.ON_PLAYER_ATTACK, SetAnimTriggerAttack);
+    }
+
     private void Start()
     {
         animator = GetComponent<Animator>();
