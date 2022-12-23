@@ -4941,9 +4941,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: -105541197
+  m_SortingLayer: 3
+  m_SortingOrder: 10
   m_Sprite: {fileID: -1530899134, guid: b0cb6e8ce131dbf4fb818eba7ed5d424, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -5048,7 +5048,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a30f2835fcb6fd48b092952c6c00b26, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pickupPrefab: {fileID: 6313787074590406046, guid: d9b30912861689a4ab06b3d85e778b4e, type: 3}
+  pickupPrefab: {fileID: 6313787074590406046, guid: d9b30912861689a4ab06b3d85e778b4e,
+    type: 3}
   hitParticle: {fileID: 6902339571851901907}
   lookRange: 6
   attackRange: 1.5
