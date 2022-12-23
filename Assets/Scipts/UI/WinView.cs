@@ -4,19 +4,16 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class MainMenuView : View
+public class WinView : View
 {
     [SerializeField] 
-    private Button playButton;
-    [SerializeField]
-    private Button settingsButton;
+    private Button returnToMenuButton;
     [SerializeField] 
     private Button quitButton;
 
     public override void Initialize()
     {
-        playButton.onClick.AddListener(() => SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1));
-        settingsButton.onClick.AddListener(() => ViewManager.Show<SettingsMenuView>());
+        returnToMenuButton.onClick.AddListener(() => SceneManager.LoadScene("MainMenu"));
         quitButton.onClick.AddListener(() => Application.Quit());
     }
 }
