@@ -5,10 +5,10 @@ using UnityEngine;
 
 public class FiniteStateMachine
 {
-    private List<Transition> allTransitions = new List<Transition>();
-    private List<Transition> activeTransitions = new List<Transition>();
+    private List<Transition> allTransitions = new();
+    private List<Transition> activeTransitions = new();
 
-    private Dictionary<Type, IState> stateCollection = new Dictionary<Type, IState>();
+    private Dictionary<Type, IState> stateCollection = new();
     private IState currentState;
 
     //Creates the machine and stores all given states
